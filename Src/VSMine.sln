@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSMine", "VSMine\VSMine.csproj", "{EC828A21-3927-491D-824C-69A5D0BA54CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSMine.RedmineService", "VSMine.RedmineService\VSMine.RedmineService.csproj", "{E52F2B31-7376-4903-8F16-BD1E6A530D88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSMine.Model", "VSMine.Model\VSMine.Model.csproj", "{F264C1C5-358D-4417-AFA0-F44985996BCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{EC828A21-3927-491D-824C-69A5D0BA54CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC828A21-3927-491D-824C-69A5D0BA54CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC828A21-3927-491D-824C-69A5D0BA54CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E52F2B31-7376-4903-8F16-BD1E6A530D88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E52F2B31-7376-4903-8F16-BD1E6A530D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E52F2B31-7376-4903-8F16-BD1E6A530D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E52F2B31-7376-4903-8F16-BD1E6A530D88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F264C1C5-358D-4417-AFA0-F44985996BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F264C1C5-358D-4417-AFA0-F44985996BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F264C1C5-358D-4417-AFA0-F44985996BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F264C1C5-358D-4417-AFA0-F44985996BCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

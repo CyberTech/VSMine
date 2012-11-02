@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EnvDTE;
+using KoiSoft.VSMine.OptionScreens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VSMine.RedmineService;
+using VSMine.RedmineService.Providers;
 
 namespace KoiSoft.VSMine.Controls
 {
@@ -29,6 +33,12 @@ namespace KoiSoft.VSMine.Controls
         {
             MessageBox.Show(string.Format(System.Globalization.CultureInfo.CurrentUICulture, "We are inside {0}.button1_Click()", this.ToString()),
                             "Redmine Tasks");
+
+            IRedmine redmineService = new RestSharpRedmineProvider();
+            redmineService.Init(VSMinePackage.Options.RedmineBaseURL,
+                                VSMinePackage.Options.RedmineUsername,
+                                VSMinePackage.Options.RedminePassword);
+            redmineService.GetIssues();
 
         }
     }

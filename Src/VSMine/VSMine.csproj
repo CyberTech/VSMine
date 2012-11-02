@@ -16,8 +16,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KoiSoft.VSMine</RootNamespace>
     <AssemblyName>VSMine</AssemblyName>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -124,6 +125,9 @@
     <Compile Include="Controls\MyControl.xaml.cs">
       <DependentUpon>MyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OptionScreens\VSMineOptions.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RedmineToolWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -153,9 +157,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Key.snk" />
-  </ItemGroup>
-  <ItemGroup>
     <VSCTCompile Include="VSMine.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
@@ -171,6 +172,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VSMine.Model\VSMine.Model.csproj">
+      <Project>{f264c1c5-358d-4417-afa0-f44985996bca}</Project>
+      <Name>VSMine.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VSMine.RedmineService\VSMine.RedmineService.csproj">
+      <Project>{e52f2b31-7376-4903-8f16-bd1e6a530d88}</Project>
+      <Name>VSMine.RedmineService</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

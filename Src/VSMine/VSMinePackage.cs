@@ -8,6 +8,8 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using KoiSoft.VSMine.OptionScreens;
+using EnvDTE;
 
 namespace KoiSoft.VSMine
 {
@@ -31,9 +33,14 @@ namespace KoiSoft.VSMine
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(RedmineToolWindow))]
+    [ProvideOptionPage(typeof(VSMineOptions), "VSMine", "General", 0, 0, true)] 
     [Guid(GuidList.guidVSMinePkgString)]
     public sealed class VSMinePackage : Package
     {
+        public static DTE DTE { get; private set; }
+
+        public static VSMineOptions Options { get; private set; }
+
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -88,7 +95,12 @@ namespace KoiSoft.VSMine
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
             }
+
+            DTE = GetService(typeof(DTE)) as DTE;
+
+            Options = (VSMineOptions)GetDialogPage(typeof(VSMineOptions));
         }
+
         #endregion
 
     }
