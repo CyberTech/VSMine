@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="KoiSoft.VSMine.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Name="MyToolWindow">
+    <xctk:BusyIndicator IsBusy="{Binding IsLoading}">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Padding" Value="5,4,5,4" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Padding="{TemplateBinding Padding}" 
+                                Background="{TemplateBinding Background}">
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Lavender" />
+                            <Setter Property="BorderBrush" Value="Lavender" />
+                            <Setter Property="Foreground" Value="Black" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="{x:Type DataGrid}">
+                    <Setter Property="HorizontalGridLinesBrush" Value="LightBlue"/>
+                    <Setter Property="RowHeaderWidth" Value="0"/>
+                    <Setter Property="VerticalGridLinesBrush" Value="LightBlue"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <ToolBarTray>
+                <ToolBar>
+                    <Button Content="Refresh" Command="{Binding RefreshCommand}"/>
+                </ToolBar>
+            </ToolBarTray>
+
+
+            <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                  AutoGenerateColumns="False">
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Path=Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True">
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                        <TextBlock Text="{Binding Path=ItemCount}"/>
+                                                        <TextBlock Text="Items"/>
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Subject" Binding="{Binding Subject}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                    <DataGridTextColumn Header="Tracker" Binding="{Binding Tracker}"/>
+                    <DataGridTextColumn Header="Assigned to" Binding="{Binding AssignedTo}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

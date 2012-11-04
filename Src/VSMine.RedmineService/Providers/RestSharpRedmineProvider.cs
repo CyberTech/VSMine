@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VSMine.Model;
+using VSMine.Model.Response;
 
 namespace VSMine.RedmineService.Providers
 {
@@ -26,19 +27,20 @@ namespace VSMine.RedmineService.Providers
             this._password = password;
         }
 
-        public IList<Issue> GetIssues()
+        public Task<IList<Issue>> GetIssues()
         {
-            var client = new RestClient(_baseUrl);
-            if (!String.IsNullOrEmpty(_userName))
+            return Task.Run<IList<Issue>>(() =>
             {
-                client.Authenticator = new HttpBasicAuthenticator(_userName, _password);
-            }
+                var client = new RestClient(_baseUrl);
+                if (!String.IsNullOrEmpty(_userName))
+                {
+                    client.Authenticator = new HttpBasicAuthenticator(_userName, _password);
+                }
 
-            var request = new RestRequest("issues.json");
-
-            var response = client.Execute(request);
-
-            return new List<Issue>();
+                var request = new RestRequest("issues.json");
+                var response = client.Execute<GetIssuesResponse>(request);
+                return response.Data.Issues;
+            });
         }
     }
 }

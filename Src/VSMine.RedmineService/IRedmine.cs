@@ -13,6 +13,6 @@ namespace VSMine.RedmineService
 
         void Init(string baseUrl, string userName, string password);
 
-        IList<Issue> GetIssues();
+        Task<IList<Issue>> GetIssues();
     }
 }
