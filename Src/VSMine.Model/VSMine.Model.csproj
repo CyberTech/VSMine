@@ -47,11 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Issue.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Record.cs" />
+    <Compile Include="Response\GetProjectsResponse.cs" />
     <Compile Include="Response\GetIssuesResponse.cs" />
     <Compile Include="Response\PagedResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NamedRecord.cs" />
+    <Compile Include="Tracker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

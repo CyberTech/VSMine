@@ -127,6 +127,13 @@
   <ItemGroup>
     <Compile Include="Common\FastObservableCollection.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Services\Providers\SettingsService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainView.xaml.cs">
@@ -159,7 +166,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

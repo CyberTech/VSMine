@@ -27,7 +27,7 @@ namespace VSMine.RedmineService.Providers
             this._password = password;
         }
 
-        public Task<IList<Issue>> GetIssues()
+        public Task<IList<Issue>> GetIssues(Project project)
         {
             return Task.Run<IList<Issue>>(() =>
             {
@@ -37,9 +37,28 @@ namespace VSMine.RedmineService.Providers
                     client.Authenticator = new HttpBasicAuthenticator(_userName, _password);
                 }
 
-                var request = new RestRequest("issues.json");
+                var request = new RestRequest("issues.json?project_id={projectId}&limit={limit}");
+                request.AddUrlSegment("projectId", project.Id);
+                request.AddUrlSegment("limit", "100");
+
                 var response = client.Execute<GetIssuesResponse>(request);
                 return response.Data.Issues;
+            });
+        }
+
+        public Task<IList<Project>> GetProjects()
+        {
+            return Task.Run<IList<Project>>(() =>
+            {
+                var client = new RestClient(_baseUrl);
+                if (!String.IsNullOrEmpty(_userName))
+                {
+                    client.Authenticator = new HttpBasicAuthenticator(_userName, _password);
+                }
+
+                var request = new RestRequest("projects.json");
+                var response = client.Execute<GetProjectsResponse>(request);
+                return response.Data.Projects;
             });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using KoiSoft.VSMine.Common;
+using KoiSoft.VSMine.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,12 @@ namespace KoiSoft.VSMine.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public IRedmine RedmineService { get; protected set; }
+        public ISettingsService SettingsService { get; protected set; }
+
+        /// <summary>
+        /// List of available projects
+        /// </summary>
+        public FastObservableCollection<Project> Projects { get; set; }
 
         /// <summary>
         /// List of retrieved issues
@@ -23,6 +30,32 @@ namespace KoiSoft.VSMine.ViewModels
         public FastObservableCollection<Issue> Issues { get; set; }
 
         public ICollectionView IssuesView { get; set; }
+
+        private Project _selectedProject;
+        /// <summary>
+        /// SelectedProject
+        /// </summary>
+        public Project SelectedProject
+        {
+            get { return _selectedProject; }
+            set
+            {
+                _selectedProject = value;
+                RaisePropertyChanged("SelectedProject");
+
+                if (SettingsService != null)
+                {
+                    if (_selectedProject == null)
+                    {
+                        SettingsService.LastSelectedProject = null;
+                    }
+                    else
+                    {
+                        SettingsService.LastSelectedProject = _selectedProject.Identifier;
+                    }
+                }
+            }
+        }
 
         private bool _isLoading;
         /// <summary>
@@ -38,6 +71,8 @@ namespace KoiSoft.VSMine.ViewModels
             }
         }
 
+        private bool _isInitialised;
+
         #region Commands
 
         private ICommand _refreshCommand;
@@ -50,7 +85,7 @@ namespace KoiSoft.VSMine.ViewModels
             {
                 if (_refreshCommand == null)
                 {
-                    _refreshCommand = new RelayCommand(p => Refresh());
+                    _refreshCommand = new RelayCommand(p => Refresh(), p => this.SelectedProject != null);
                 }
                 return _refreshCommand;
             }
@@ -60,31 +95,67 @@ namespace KoiSoft.VSMine.ViewModels
 
         public MainViewModel()
         {
+            Projects = new FastObservableCollection<Project>();
+
             Issues = new FastObservableCollection<Issue>();
             IssuesView = CollectionViewSource.GetDefaultView(Issues);
             IssuesView.GroupDescriptions.Add(new PropertyGroupDescription("AssignedTo"));
 
+            SettingsService = new KoiSoft.VSMine.Services.Providers.SettingsService();
             RedmineService = new RestSharpRedmineProvider();
             RedmineService.Init(VSMinePackage.Options.RedmineBaseURL,
                                 VSMinePackage.Options.RedmineUsername,
                                 VSMinePackage.Options.RedminePassword);
         }
 
-        public void OnLoaded()
+        public async void OnLoaded()
         {
+            if (!_isInitialised)
+            {
+                await LoadProjects();
+                _isInitialised = true;
+            }
+            Refresh();
+        }
 
+        private async Task LoadProjects()
+        {
+            IsLoading = true;
+
+            var projects = await RedmineService.GetProjects();
+
+            Projects.Clear();
+            Projects.AddRange(projects);
+
+            if (Projects.Count > 0)
+            {
+                if (!String.IsNullOrEmpty(SettingsService.LastSelectedProject))
+                {
+                    SelectedProject = Projects.Where(p => p.Identifier == SettingsService.LastSelectedProject).FirstOrDefault();
+                }
+
+                if (SelectedProject == null)
+                {
+                    SelectedProject = Projects[0];
+                }
+            }
+
+            IsLoading = false;
         }
 
         private async void Refresh()
         {
-            IsLoading = true;
+            if (this.SelectedProject != null)
+            {
+                IsLoading = true;
 
-            var issues = await RedmineService.GetIssues();
+                var issues = await RedmineService.GetIssues(this.SelectedProject);
 
-            Issues.Clear();
-            Issues.AddRange(issues);
+                Issues.Clear();
+                Issues.AddRange(issues);
 
-            IsLoading = false;
+                IsLoading = false;
+            }
         }
     }
 }

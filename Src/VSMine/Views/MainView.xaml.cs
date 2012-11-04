@@ -30,5 +30,11 @@ namespace KoiSoft.VSMine.Views
 
             InitializeComponent();
         }
+
+        private void MainView_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainViewModel viewModel = (MainViewModel)this.DataContext;
+            viewModel.OnLoaded();
+        }
     }
 }
