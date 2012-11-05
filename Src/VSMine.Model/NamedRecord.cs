@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VSMine.Model
 {
-    public class NamedRecord : Record
+    public class NamedRecord : Record, IComparable<NamedRecord>, IComparable
     {
         public string Name { get; set; }
 
@@ -25,6 +25,18 @@ namespace VSMine.Model
             return false;
         }
 
+        public int CompareTo(NamedRecord other)
+        {
+            return String.Compare(this.Name, other.Name, StringComparison.CurrentCulture);
+        }
 
+        public int CompareTo(object obj)
+        {
+            if (obj is NamedRecord)
+            {
+                return this.CompareTo((NamedRecord)obj);
+            }
+            return 1;
+        }
     }
 }

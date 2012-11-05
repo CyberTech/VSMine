@@ -95,6 +95,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Subject" Binding="{Binding Subject}"/>
+                    <DataGridTextColumn Header="Priority" Binding="{Binding Priority}"/>
                     <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
                     <DataGridTextColumn Header="Tracker" Binding="{Binding Tracker}"/>
                     <DataGridTextColumn Header="Assigned to" Binding="{Binding AssignedTo}"/>

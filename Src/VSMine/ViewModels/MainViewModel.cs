@@ -100,6 +100,7 @@ namespace KoiSoft.VSMine.ViewModels
             Issues = new FastObservableCollection<Issue>();
             IssuesView = CollectionViewSource.GetDefaultView(Issues);
             IssuesView.GroupDescriptions.Add(new PropertyGroupDescription("AssignedTo"));
+            IssuesView.SortDescriptions.Add(new SortDescription("AssignedTo", ListSortDirection.Ascending));
 
             SettingsService = new KoiSoft.VSMine.Services.Providers.SettingsService();
             RedmineService = new RestSharpRedmineProvider();
@@ -110,12 +111,19 @@ namespace KoiSoft.VSMine.ViewModels
 
         public async void OnLoaded()
         {
-            if (!_isInitialised)
+            try
             {
-                await LoadProjects();
-                _isInitialised = true;
+                if (!_isInitialised)
+                {
+                    await LoadProjects();
+                    _isInitialised = true;
+                }
+                Refresh();
             }
-            Refresh();
+            catch (Exception exp)
+            {
+                System.Windows.MessageBox.Show(exp.ToString());
+            }
         }
 
         private async Task LoadProjects()
@@ -145,16 +153,23 @@ namespace KoiSoft.VSMine.ViewModels
 
         private async void Refresh()
         {
-            if (this.SelectedProject != null)
+            try
             {
-                IsLoading = true;
+                if (this.SelectedProject != null)
+                {
+                    IsLoading = true;
 
-                var issues = await RedmineService.GetIssues(this.SelectedProject);
+                    var issues = await RedmineService.GetIssues(this.SelectedProject);
 
-                Issues.Clear();
-                Issues.AddRange(issues);
+                    Issues.Clear();
+                    Issues.AddRange(issues);
 
-                IsLoading = false;
+                    IsLoading = false;
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Windows.MessageBox.Show(exp.ToString());
             }
         }
     }
