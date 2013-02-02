@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KoiSoft.VSMine.Common
 {
@@ -25,7 +21,6 @@ namespace KoiSoft.VSMine.Common
         /// Domyślny konstruktor
         /// </summary>
         public FastObservableCollection()
-            : base()
         {
             _suspendNotification = false;
         }
@@ -71,7 +66,7 @@ namespace KoiSoft.VSMine.Common
             {
                 foreach (var i in items)
                 {
-                    InsertItem(Count, i);
+                    InsertItem(index, i);
                 }
             }
             finally
@@ -90,7 +85,6 @@ namespace KoiSoft.VSMine.Common
         {
             this.SuspendCollectionChangeNotification();
 
-            int index = Count;
             try
             {
                 foreach (var i in items)

@@ -1,18 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VSMine.Model
 {
     public class NamedRecord : Record, IComparable<NamedRecord>, IComparable
     {
-        public string Name { get; set; }
+        protected string Name { get; set; }
+
+        public NamedRecord(string name)
+        {
+            Name = name;
+        }
 
         public override string ToString()
         {
             return this.Name;
+        }
+
+        protected bool Equals(NamedRecord other)
+        {
+            return string.Equals(Name, other.Name);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Name != null ? Name.GetHashCode() : 0);
         }
 
         public override bool Equals(object obj)

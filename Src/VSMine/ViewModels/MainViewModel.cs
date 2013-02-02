@@ -1,10 +1,8 @@
 ﻿using KoiSoft.VSMine.Common;
 using KoiSoft.VSMine.Services;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;

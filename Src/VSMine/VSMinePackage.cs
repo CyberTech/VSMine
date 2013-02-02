@@ -3,10 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using KoiSoft.VSMine.OptionScreens;
 using EnvDTE;
@@ -37,7 +34,7 @@ namespace KoiSoft.VSMine
     [Guid(GuidList.guidVSMinePkgString)]
     public sealed class VSMinePackage : Package
     {
-        public static DTE DTE { get; private set; }
+        private static DTE DTE { get; set; }
 
         public static VSMineOptions Options { get; private set; }
 

@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VSMine.Model
 {
     public class Project : NamedRecord
     {
+        public Project(string name) : base(name)
+        {
+        }
+
         /// <summary>
         /// Gets or sets project identifier.
         /// </summary>

@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KoiSoft.VSMine.ViewModels
 {
@@ -141,7 +138,7 @@ namespace KoiSoft.VSMine.ViewModels
 
             if (_callbacks.Keys.Count == 0)
             {
-                this.PropertyChanged += new PropertyChangedEventHandler(ViewModelBase_PropertyChanged);
+                this.PropertyChanged += ViewModelBase_PropertyChanged;
             }
 
             var body = propertyExpression.Body as UnaryExpression;
