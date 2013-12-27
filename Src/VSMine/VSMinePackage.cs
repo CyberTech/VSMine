@@ -30,7 +30,8 @@ namespace KoiSoft.VSMine
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(RedmineToolWindow))]
-    [ProvideOptionPage(typeof(VSMineOptions), "VSMine", "General", 0, 0, true)] 
+    [ProvideOptionPage(typeof(VSMineOptions), "VSMine", "General", 0, 0, true)]
+    [ProvideBindingPath]
     [Guid(GuidList.guidVSMinePkgString)]
     public sealed class VSMinePackage : Package
     {

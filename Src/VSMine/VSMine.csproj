@@ -66,6 +66,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="WPFToolkit.Extended">
       <HintPath>..\packages\Extended.Wpf.Toolkit.1.7.0\lib\net40\WPFToolkit.Extended.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,6 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VSMine.Model;
 using VSMine.Model.Response;
@@ -15,9 +13,12 @@ namespace VSMine.RedmineService.Providers
         private string _userName;
         private string _password;
 
+        private bool _isInitialized;
+
         public void Init(string baseUrl)
         {
             this._baseUrl = baseUrl;
+            _isInitialized = true;
         }
 
         public void Init(string baseUrl, string userName, string password)
@@ -25,10 +26,14 @@ namespace VSMine.RedmineService.Providers
             this._baseUrl = baseUrl.StartsWith("http://") ? baseUrl : "http://" + baseUrl;
             this._userName = userName;
             this._password = password;
+
+            _isInitialized = true;
         }
 
         public Task<IList<Issue>> GetIssues(Project project)
         {
+            CheckIfInitialized();
+
             return Task.Run<IList<Issue>>(() =>
             {
                 var client = new RestClient(_baseUrl);
@@ -48,6 +53,8 @@ namespace VSMine.RedmineService.Providers
 
         public Task<IList<Project>> GetProjects()
         {
+            CheckIfInitialized();
+
             return Task.Run<IList<Project>>(() =>
             {
                 var client = new RestClient(_baseUrl);
@@ -60,6 +67,14 @@ namespace VSMine.RedmineService.Providers
                 var response = client.Execute<GetProjectsResponse>(request);
                 return response.Data.Projects;
             });
+        }
+
+        private void CheckIfInitialized()
+        {
+            if (!_isInitialized)
+            {
+                throw new InvalidOperationException("Redmine Service wasn't initialized yet!");
+            }
         }
     }
 }

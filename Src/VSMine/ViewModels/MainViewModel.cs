@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using VSMine.Model;
 using VSMine.RedmineService;
+using VSMine.RedmineService.Exceptions;
 using VSMine.RedmineService.Providers;
 
 namespace KoiSoft.VSMine.ViewModels
@@ -26,6 +27,8 @@ namespace KoiSoft.VSMine.ViewModels
         /// List of retrieved issues
         /// </summary>
         public FastObservableCollection<Issue> Issues { get; set; }
+
+        public FastObservableCollection<string> Errors { get; set; }
 
         public ICollectionView IssuesView { get; set; }
 
@@ -100,11 +103,17 @@ namespace KoiSoft.VSMine.ViewModels
             IssuesView.GroupDescriptions.Add(new PropertyGroupDescription("AssignedTo"));
             IssuesView.SortDescriptions.Add(new SortDescription("AssignedTo", ListSortDirection.Ascending));
 
+            Errors = new FastObservableCollection<string>();
+
             SettingsService = new KoiSoft.VSMine.Services.Providers.SettingsService();
             RedmineService = new RestSharpRedmineProvider();
-            RedmineService.Init(VSMinePackage.Options.RedmineBaseURL,
-                                VSMinePackage.Options.RedmineUsername,
-                                VSMinePackage.Options.RedminePassword);
+
+            if (!String.IsNullOrEmpty(VSMinePackage.Options.RedmineBaseURL))
+            {
+                RedmineService.Init(VSMinePackage.Options.RedmineBaseURL,
+                                    VSMinePackage.Options.RedmineUsername,
+                                    VSMinePackage.Options.RedminePassword);
+            }
         }
 
         public async void OnLoaded()
@@ -117,6 +126,10 @@ namespace KoiSoft.VSMine.ViewModels
                     _isInitialised = true;
                 }
                 Refresh();
+            }
+            catch (NotInitializedException notInitializedException)
+            {
+
             }
             catch (Exception exp)
             {
@@ -137,7 +150,7 @@ namespace KoiSoft.VSMine.ViewModels
             {
                 if (!String.IsNullOrEmpty(SettingsService.LastSelectedProject))
                 {
-                    SelectedProject = Projects.Where(p => p.Identifier == SettingsService.LastSelectedProject).FirstOrDefault();
+                    SelectedProject = Projects.FirstOrDefault(p => p.Identifier == SettingsService.LastSelectedProject);
                 }
 
                 if (SelectedProject == null)
